@@ -131,7 +131,7 @@ end
     cfgbrowsICA = [];
     cfgbrowsICA.layout = layout; % specify the layout file that should be used for plotting
     cfgbrowsICA.viewmode = 'component';
-    [dataclean] = sokoft_plot_components(comp,data,cfgtopoICA,cfgbrowsICA)
+    [dataclean] = plot_components(comp,data,cfgtopoICA,cfgbrowsICA)
             cfg = [];
         cfg.method   = 'summary';% 'channel' 'trial'
         %cfg.layout   = layout;   % this allows for plotting individual trials
