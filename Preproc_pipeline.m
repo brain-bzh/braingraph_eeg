@@ -1,3 +1,6 @@
+addpath Z:/fieldtrip-20160906/
+addpath C:\Users\mmenoret\Documents\GitHub\braingraph_eeg
+
 cfgpr.fold='D:/DATA/';
 cfgpr.suj = 'sema';
 cfgpr.tache = 'naming';
