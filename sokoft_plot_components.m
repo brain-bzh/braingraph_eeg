@@ -1,14 +1,3 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% Max Planck Institute for Human Brain Sciences and Cognition
-%% Independent Research Group "Subcortical contributions to comprehension" (S.A. Kotz)
-%% and
-%% WSFiZ in Warsaw - Departement of Cognitive Psychology
-%% Music Performance and Brain Lab ( S. Dallabella)
-%%
-%% Project : PD Cueing project (EBRAMUS ITN 238157)
-%% N. Farrugia, C.E. Benoit, S. Dallabella and S.A. Kotz
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 function [dataclean] = sokoft_plot_components(comp,data,cfgtopoICA,cfgbrowsICA)
 
 % plot the components for visual inspection
