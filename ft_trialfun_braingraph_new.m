@@ -26,4 +26,5 @@ end
 % Read & Reject Error Trials (from xls file) 
 [badtrials,namesuj,raw]=xlsread([cfg.fold 'badtrials_' cfg.tache '.xlsx']);
 badtrials=badtrials(find(strcmp(cfg.suj,namesuj)==1),:)';
+badtrials(isnan(badtrials))=[];
 trl(badtrials,:)=[];    
