@@ -14,8 +14,8 @@ filename=cfg.xlsfile;
 num = xlsread(filename,cfg.tache);
 
 % define the trials
-trl(:,1) = stimulus_sample-2500 + pretrig;  % start of segment
-trl(:,2) = stimulus_sample-2500 + posttrig; % end of segment
+trl(:,1) = stimulus_sample-2400 + pretrig;  % start of segment
+trl(:,2) = stimulus_sample-2400 + posttrig; % end of segment
 trl(:,3) = pretrig;                    % how many samples prestimulus
 % add the other information
 % these columns will be represented after ft_preprocessing in "data.trialinfo"

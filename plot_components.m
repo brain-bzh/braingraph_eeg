@@ -1,6 +1,6 @@
 
 
-function [dataclean] = plot_components(comp,data,cfgtopoICA,cfgbrowsICA)
+function [dataclean, cfgrej] = plot_components(comp,data,cfgtopoICA,cfgbrowsICA)
 
 % plot the components for visual inspection
 close all
@@ -21,45 +21,7 @@ avg_comp3 = ft_timelockanalysis(cfgerp,comp);
 cfgerp.trials = randi(ntrials,[1 floor(0.75*ntrials)]);
 avg_comp4 = ft_timelockanalysis(cfgerp,comp);
 
-% figure
-% for i=1:32
-%     subplot(8,4,i)
-%     plot(avg_comp.time,avg_comp.avg(i,:));
-%     set(gca,'YDir','reverse');
-%     title(avg_comp.label{i});
-% end;
-% 
-% figure
-% for i=33:length(comp.label)
-%     subplot(8,4,i-32)
-%     plot(avg_comp.time,avg_comp.avg(i,:));
-%     set(gca,'YDir','reverse');
-%     title(avg_comp.label{i});
-% end;
 
-% figure
-% for i=1:32
-%     subplot(8,4,i)
-%     
-%     for j=1:size(comp.trial,2)        
-%     tempimage(j,:)=comp.trial{j}(i,:);  
-%     end; 
-%  
-%     imagesc(comp.time{1},1:size(comp.trial,2),tempimage);
-%     title(avg_comp.label{i});
-% end;
-% 
-% figure
-% for i=33:length(comp.label)
-%     subplot(8,4,i-32)
-%     
-%     for j=1:size(comp.trial,2)        
-%     tempimage(j,:)=comp.trial{j}(i,:);  
-%     end; 
-%  
-%     imagesc(comp.time{1},1:size(comp.trial,2),tempimage);
-%     title(avg_comp.label{i});
-% end;
 
 cfgTF = []; 
 cfgTF.method = 'mtmfft'; 
@@ -72,9 +34,9 @@ freqcomp = ft_freqanalysis(cfgTF,comp);
 
 cfgitc = [];
 cfgitc.method = 'wavelet';
-cfgitc.foi = 5:1:50;
+cfgitc.foi = 1:1:45;
 cfgitc.toi    = (cfgtopoICA.segm(1)):0.01:cfgtopoICA.segm(2);
-cfgitc.pad = 2.5;
+cfgitc.pad = 'maxperlen';
 cfgitc.output = 'fourier';
 freqitc = ft_freqanalysis(cfgitc, comp);
 
@@ -93,39 +55,17 @@ itc.itlc      = squeeze(itc.itlc); % remove the first singleton dimension
 
 
 
-%cfgtest.linewidth = 2; 
-% 
-% figure
-% for i=1:32
-%     subplot(8,4,i)
-%     cfgtest.channel = freqcomp.label{i};
-%     semilogy(freqcomp.freq,freqcomp.powspctrm(i,:),'Linewidth',2);
-%  %   ft_singleplotER(cfgtest,freqcomp);
-%     title(freqcomp.label{i});
-% end;
-% 
-% figure
-% for i=33:length(comp.label)
-%     subplot(8,4,i-32)
-%     cfgtest.channel = freqcomp.label{i};
-%     semilogy(freqcomp.freq,freqcomp.powspctrm(i,:),'Linewidth',2);
-%     %ft_singleplotER(cfgtest,freqcomp);
-%     title(freqcomp.label{i});
-% end;
-
-
 
 ft_databrowser(cfgbrowsICA, comp);
 
-if length(comp.label) >32
+if length(comp.label) >36
 
-cfgtopoICA.component = 1:32;
-
+cfgtopoICA.component = 1:36;
 figure
 ft_topoplotIC(cfgtopoICA, comp);
 
-cfgtopoICA.component = 33:length(comp.label);
 
+cfgtopoICA.component = 37:length(comp.label);
 figure
 ft_topoplotIC(cfgtopoICA, comp);
 
@@ -186,8 +126,9 @@ if strcmp(userchoice,'C')
     title('ERP of component');
     
     subplot(5, 1, 4);
-    imagesc(itc.time, itc.freq, squeeze(itc.itlc(1,:,:))); 
+    imagesc(itc.time, itc.freq, squeeze(itc.itlc(compnum,:,:))); 
     axis xy
+    colorbar
     title('inter-trial linear coherence');
     
     subplot(5,1,5)
@@ -204,7 +145,6 @@ elseif strcmp(userchoice,'R')
     aa = input('List of components to reject ? ', 's');
     cfgrej = [];
     cfgrej.demean = 'no';
-
     eval(['cfgrej.component = ' aa ]);
     dataclean = ft_rejectcomponent(cfgrej,comp,data);
         cfg=[];

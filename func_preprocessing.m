@@ -84,27 +84,34 @@ end
     cfg = ft_rejectartifact(cfg)
     
     cfg.padding      = 2;
-    cfg.hpfilter='yes';
-    cfg.hpfreq=0.5;
-    cfg.hpfilttype='firws';
-    cfg.hpfiltwintype= 'kaiser';
-    cfg.hpfiltord =5016;
-    cfg.hpfiltdev =0.0001;
+    cfg.bpfilter='yes';
+    cfg.bpfreq=[0.5 45];
+    cfg.bpfilttype='firws';
+    cfg.bpfiltwintype= 'kaiser';
+    cfg.bpfiltord =5016;
+    cfg.bpfiltdev =0.0001;
     %cfg.plotfiltresp  = 'yes';
-    cfg.dftfilter     ='yes';
-    cfg.dftfreq       =[50 60 100 120];
     data = ft_preprocessing(cfg);
-    
+        
+        cfg=[]
+        cfg.resamplefs  = 300;
+       data = ft_resampledata(cfg, data);
   
 % Charger noms et coordonnÃ©es electrodes  & créer layout  
+    load([cfgpr.fold '/layout.mat']);
     fileID = fopen([cfgpr.fold '/coordAmd256.xyz']);
     Channel = textscan(fileID,'%f %f32 %f32 %f32 %s');
     fclose(fileID);
     data.label=Channel{5};
     data.elec.label=data.label';
     data.elec.pnt = double([Channel{2}, Channel{3}, Channel{4}]);
-    cfg=[];
-    layout = ft_prepare_layout(cfg, data);
+  
+        cfg = [];
+        cfg.method   = 'channel';% 'channel' 'trial'
+        cfg.layout   = lay;   % this allows for plotting individual trials
+        cfg.channel  = 'all';    % do not show EOG channels
+        data   = ft_rejectvisual(cfg, data);  
+                
         cfg = [];
         cfg.method   = 'summary';% 'channel' 'trial'
         cfg.layout   = layout;   % this allows for plotting individual trials
@@ -117,26 +124,27 @@ end
     %cfg.runica.pca = length(data.label);
     %cfg.numcomponent = length(data.label);
     cfg.method ='fastica';
-    cfg.fastica.lastEig = 50;
-    cfg.fastica.numOfIC = 50;
+    cfg.fastica.lastEig = 60;
+    cfg.fastica.numOfIC = 60;
     cfg.fastica.g = 'pow3';
     comp = ft_componentanalysis(cfg,data);
- 
+     
     cfgtopoICA = [];
     cfgtopoICA.component = [1:20];       % specify the component(s) that should be plotted
     cfgtopoICA.layout    = layout; % specify the layout file that should be used for plotting
     cfgtopoICA.comment   = 'no';
     cfgtopoICA.segm   = cfgpr.segm;
-
     cfgbrowsICA = [];
     cfgbrowsICA.layout = layout; % specify the layout file that should be used for plotting
     cfgbrowsICA.viewmode = 'component';
     [dataclean] = plot_components(comp,data,cfgtopoICA,cfgbrowsICA)
-            cfg = [];
+        
+        cfg = [];
         cfg.method   = 'summary';% 'channel' 'trial'
         %cfg.layout   = layout;   % this allows for plotting individual trials
         cfg.channel  = 'all';    % do not show EOG channels
-        dataclean   = ft_rejectvisual(cfg, dataclean);  
+        dataclean   = ft_rejectvisual(cfg, dataclean);
+        
     outfile=[fold_s 'dataclean.mat'];
     save(outfile, 'dataclean');
 end
