@@ -131,11 +131,11 @@ end
      
     cfgtopoICA = [];
     cfgtopoICA.component = [1:20];       % specify the component(s) that should be plotted
-    cfgtopoICA.layout    = layout; % specify the layout file that should be used for plotting
+    cfgtopoICA.layout    = lay; % specify the layout file that should be used for plotting
     cfgtopoICA.comment   = 'no';
     cfgtopoICA.segm   = cfgpr.segm;
     cfgbrowsICA = [];
-    cfgbrowsICA.layout = layout; % specify the layout file that should be used for plotting
+    cfgbrowsICA.layout = lay; % specify the layout file that should be used for plotting
     cfgbrowsICA.viewmode = 'component';
     [dataclean] = plot_components(comp,data,cfgtopoICA,cfgbrowsICA)
         
