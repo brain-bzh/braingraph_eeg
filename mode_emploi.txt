@@ -1,0 +1,31 @@
+Description du pipeline
+
+Paramètres:
+	- fold : dossier ou sont les données sujet
+	- suj: nom du sujet
+	- tache: nom de la tache
+	- segmentation (sauf condition rest)
+	- paramfold : dossier qui contient tous les fichiers paramètres (essais, layout, coord electrodes...)
+
+
+- Lit les events et crée les essais
+- Jump artifact rejection
+- Muscle artifact rejection
+- Filtres
+- Resampling
+- Visualisation des channels
+- Artefact rejection summary: Penser à enlever Cz (electrodes vraiment bruitées, essais abhérants)
+
+Save data
+
+- ICA
+
+Save comp
+
+- Artifact rejection ICA
+- Visualisation des ERP et des essais "propres"
+Si le résultat est convenable 'yes', sinon 'no' et on peut rejeter d'autres composantes.
+Si les composantes semblent trop artefactuelles, relancer un "summary" et l'ICA 
+
+Save dataclean
+
