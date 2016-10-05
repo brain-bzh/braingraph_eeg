@@ -58,16 +58,61 @@ itc.itlc      = squeeze(itc.itlc); % remove the first singleton dimension
 
 ft_databrowser(cfgbrowsICA, comp);
 
-if length(comp.label) >36
-
-cfgtopoICA.component = 1:36;
+if length(comp.label) >36 
+    cfgtopoICA.component = 1:36;
 figure
 ft_topoplotIC(cfgtopoICA, comp);
 
-
-cfgtopoICA.component = 37:length(comp.label);
-figure
-ft_topoplotIC(cfgtopoICA, comp);
+    if length(comp.label)>73
+    cfgtopoICA.component = 37:72;
+    figure
+    ft_topoplotIC(cfgtopoICA, comp);
+        if length(comp.label)>108
+        cfgtopoICA.component = 73:108;
+        figure
+        ft_topoplotIC(cfgtopoICA, comp);
+            if length(comp.label)>144
+            cfgtopoICA.component = 109:144;
+            figure
+            ft_topoplotIC(cfgtopoICA, comp); 
+                if length(comp.label)>180
+                cfgtopoICA.component = 145:180;
+                figure
+                ft_topoplotIC(cfgtopoICA, comp);
+                    if length(comp.label)>216
+                    cfgtopoICA.component = 181:216;
+                    figure
+                    ft_topoplotIC(cfgtopoICA, comp);
+                        if length(comp.label)>252
+                        cfgtopoICA.component = 217:length(comp.label);
+                        figure
+                        ft_topoplotIC(cfgtopoICA, comp);
+                        end
+                    else
+                    cfgtopoICA.component = 181:length(comp.label);
+                    figure
+                    ft_topoplotIC(cfgtopoICA, comp);
+                    end
+                else
+                cfgtopoICA.component = 145:length(comp.label);
+                figure
+                ft_topoplotIC(cfgtopoICA, comp);
+                end
+            else
+        cfgtopoICA.component = 109:length(comp.label);
+        figure
+        ft_topoplotIC(cfgtopoICA, comp);
+            end
+        else  
+        cfgtopoICA.component = 73:length(comp.label);
+        figure
+        ft_topoplotIC(cfgtopoICA, comp);
+        end
+    else
+    cfgtopoICA.component = 37:length(comp.label);
+    figure
+    ft_topoplotIC(cfgtopoICA, comp);
+    end
 
 else
     cfgtopoICA.component = 1:length(comp.label);
@@ -148,15 +193,26 @@ elseif strcmp(userchoice,'R')
     eval(['cfgrej.component = ' aa ]);
     dataclean = ft_rejectcomponent(cfgrej,comp,data);
         cfg=[];
-        %cfg.layout = cfgbrowsICA.layout;
         cfg.method   = 'trial';
         cfg.channel  = 'all';    % do not show EOG channels
-        dataclean   = ft_rejectvisual(cfg, dataclean);  
+        dataclean   = ft_rejectvisual(cfg, dataclean); 
+        cfg=[];
+        cfg.keeptrials = 'no'; % yes for statistical analysis no otherwise
+        cfg.baseline     = [-0.2 -0]; 
+        erp = ft_timelockanalysis(cfg, dataclean);
+        erp = ft_timelockbaseline(cfg, erp);
+        figure()
+        cfg =[];
+        cfg.layout = cfgbrowsICA.layout;
+        cfg.showlabels    = 'yes';%, 'no' (default = 'no')
+        ft_multiplotER(cfg, erp);
+        
     verif = input('Is ICA analysis complete (Type "yes" or "no")');
     if strcmp(verif,'yes')
     enduser = 1;
     elseif strcmp(verif,'no')
         enduser =0;
+        close all
     else 
         disp('wrong entry');
         pause(0.5);

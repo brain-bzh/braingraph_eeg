@@ -16,7 +16,7 @@ cfg.dataset = infile;
 
 % Determiner trial en fonction events (ou segmenter pour resting state)
 if strcmp(cfgpr.tache,'resting_state');
-    cfg.trialdef.triallength = 5;
+    cfg.trialdef.triallength = cfgpr.segm;
     cfg.trialdef.ntrials     = Inf;
     cfg.continuous  = 'yes';
     cfg = ft_definetrial(cfg);
@@ -93,13 +93,13 @@ end
     %cfg.plotfiltresp  = 'yes';
     data = ft_preprocessing(cfg);
         
-        cfg=[]
-        cfg.resamplefs  = 300;
-       data = ft_resampledata(cfg, data);
+%     cfg=[]
+%     cfg.resamplefs  = 300;
+%     data = ft_resampledata(cfg, data);
   
 % Charger noms et coordonnÃ©es electrodes  & créer layout  
-    load([cfgpr.fold '/layout.mat']);
-    fileID = fopen([cfgpr.fold '/coordAmd256.xyz']);
+    load([cfgpr.paramfold 'layout.mat']);
+    fileID = fopen([cfgpr.paramfold 'coordAmd256.xyz']);
     Channel = textscan(fileID,'%f %f32 %f32 %f32 %s');
     fclose(fileID);
     data.label=Channel{5};
@@ -114,21 +114,21 @@ end
                 
         cfg = [];
         cfg.method   = 'summary';% 'channel' 'trial'
-        cfg.layout   = layout;   % this allows for plotting individual trials
-        cfg.channel  = 'all';    % do not show EOG channels
+        cfg.layout   = lay;   % this allows for plotting individual trials
+        cfg.channel  = 'all';    % 
         data   = ft_rejectvisual(cfg, data);  
+    outfile=[fold_s 'data.mat'];
+    save(outfile, 'data');
+    
     % Analyse ICA
     cfg = [];
     cfg.channel = 'all';
-    %cfg.method = 'runica'; 
-    %cfg.runica.pca = length(data.label);
-    %cfg.numcomponent = length(data.label);
-    cfg.method ='fastica';
-    cfg.fastica.lastEig = 60;
-    cfg.fastica.numOfIC = 60;
-    cfg.fastica.g = 'pow3';
+    cfg.method = 'runica'; 
+    cfg.runica.pca = 60;
     comp = ft_componentanalysis(cfg,data);
-     
+    outfile=[fold_s 'comp.mat'];
+    save(outfile, 'comp');  
+    
     cfgtopoICA = [];
     cfgtopoICA.component = [1:20];       % specify the component(s) that should be plotted
     cfgtopoICA.layout    = lay; % specify the layout file that should be used for plotting
@@ -145,6 +145,7 @@ end
         cfg.channel  = 'all';    % do not show EOG channels
         dataclean   = ft_rejectvisual(cfg, dataclean);
         
+               
     outfile=[fold_s 'dataclean.mat'];
     save(outfile, 'dataclean');
 end

@@ -10,7 +10,7 @@ posttrig =  round(cfg.trialdef.poststim * hdr.Fs);
 stimulus_sample = [event.sample]';
 
 % read xlsfile containing event info
-filename=cfg.xlsfile;
+filename=[cfg.paramfold 'STIM2.xlsx'];
 num = xlsread(filename,cfg.tache);
 
 % define the trials
@@ -24,7 +24,7 @@ for i=1:(s(2));
 trl(:,i+3) = num(:,i);
 end
 % Read & Reject Error Trials (from xls file) 
-[badtrials,namesuj,raw]=xlsread([cfg.fold 'badtrials_' cfg.tache '.xlsx']);
+[badtrials,namesuj,raw]=xlsread([cfg.paramfold 'badtrials_' cfg.tache '.xlsx']);
 badtrials=badtrials(find(strcmp(cfg.suj,namesuj)==1),:)';
 badtrials(isnan(badtrials))=[];
 trl(badtrials,:)=[];    
