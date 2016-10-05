@@ -4,7 +4,7 @@ Paramètres:
 	- fold : dossier ou sont les données sujet
 	- suj: nom du sujet
 	- tache: nom de la tache
-	- segmentation (sauf condition rest)
+	- segmentation [pre post] ou valeur pour condition rest - en secondes
 	- paramfold : dossier qui contient tous les fichiers paramètres (essais, layout, coord electrodes...)
 
 
@@ -24,8 +24,7 @@ Save comp
 
 - Artifact rejection ICA
 - Visualisation des ERP et des essais "propres"
-Si le résultat est convenable 'yes', sinon 'no' et on peut rejeter d'autres composantes.
-Si les composantes semblent trop artefactuelles, relancer un "summary" et l'ICA 
+Si le résultat est convenable 'yes', sinon 'no' et on peut refaire la rejection de composantes.
 
 Save dataclean
 
