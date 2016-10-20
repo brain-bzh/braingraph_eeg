@@ -210,9 +210,10 @@ elseif strcmp(userchoice,'R')
     verif = input('Is ICA analysis complete (Type "yes" or "no")');
     if strcmp(verif,'yes')
     enduser = 1;
+    close all
     elseif strcmp(verif,'no')
         enduser =0;
-        close all
+        
     else 
         disp('wrong entry');
         pause(0.5);

@@ -20,6 +20,12 @@ if strcmp(cfgpr.tache,'resting_state');
     cfg.trialdef.ntrials     = Inf;
     cfg.continuous  = 'yes';
     cfg = ft_definetrial(cfg);
+elseif strcmp(cfgpr.tache,'audio');
+    cfg.trialfun   = 'ft_trialfun_braingraph_audio';% enleve 2500 aux valeurs des trigger (0 = onset picture)
+    cfg.trialdef.prestim    = -cfgpr.segm(1);
+    cfg.trialdef.poststim   = cfgpr.segm(2);
+    cfg = ft_definetrial(cfg);
+    trl=cfg.trl;
 else 
     cfg.trialfun   = 'ft_trialfun_braingraph_new';% enleve 2500 aux valeurs des trigger (0 = onset picture)
     cfg.trialdef.prestim    = -cfgpr.segm(1);
