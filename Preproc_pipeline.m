@@ -1,12 +1,12 @@
-addpath Z:/fieldtrip-20160906/
-addpath C:\Users\mmenoret\Documents\GitHub\braingraph_eeg
+addpath Z:/GitHub\fieldtrip
+addpath Z:\GitHub\braingraph_eeg
 
-cfgpr.fold='C:/DATA/';
-cfgpr.suj = 'brse';
-cfgpr.tache = 'naming';
-cfgpr.segm=[-0.5 0.48]; % ou valeur en s pour resting state (ex: 5)
-cfgpr.xlsfile='D:/DATA/Comportement/STIM2.xlsx';
-cfgpr.paramfold='D:/DATA/Comportement/';
+cfgpr.fold='W:/DATA/';
+cfgpr.suj = 'romu';
+cfgpr.tache = 'audio';
+cfgpr.segm=[-0.5 1.043]; % ou valeur en s pour resting state (ex: 5)
+cfgpr.xlsfile='W:/DATA/Comportement/STIM2.xlsx';
+cfgpr.paramfold='W:/DATA/Comportement/';
 
 [dataclean] = func_preprocessing(cfgpr);
 

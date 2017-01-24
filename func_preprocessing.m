@@ -111,20 +111,19 @@ end
     data.label=Channel{5};
     data.elec.label=data.label';
     data.elec.pnt = double([Channel{2}, Channel{3}, Channel{4}]);
-  
-        cfg = [];
-        cfg.method   = 'channel';% 'channel' 'trial'
-        cfg.layout   = lay;   % this allows for plotting individual trials
-        cfg.channel  = 'all';    % do not show EOG channels
-        data   = ft_rejectvisual(cfg, data);  
-                
-        cfg = [];
-        cfg.method   = 'summary';% 'channel' 'trial'
-        cfg.layout   = lay;   % this allows for plotting individual trials
-        cfg.channel  = 'all';    % 
-        data   = ft_rejectvisual(cfg, data);  
-    outfile=[fold_s 'data.mat'];
-    save(outfile, 'data');
+
+    cfg = [];
+    cfg.method   = 'channel';% 'channel' 'trial'
+    cfg.layout   = lay;   % this allows for plotting individual trials
+    cfg.channel  = 'all';    % do not show EOG channels
+    data   = ft_rejectvisual(cfg, data);  
+
+    cfg = [];
+    cfg.method   = 'summary';% 'channel' 'trial'
+    cfg.layout   = lay;   % this allows for plotting individual trials
+    cfg.channel  = 'all';    % 
+    data   = ft_rejectvisual(cfg, data);  
+
     
     % Analyse ICA
     cfg = [];
